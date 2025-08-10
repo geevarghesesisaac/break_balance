@@ -53,26 +53,26 @@ HTML = """
             color: #b0b0b0 !important;
         }
         .btn-check-break {
-            background: #1976d2 !important;      /* Blue */
-            border-color: #1976d2 !important;
+            background: #8a05ff !important;      /* Purple */
+            border-color: #8a05ff !important;
             color: #fff !important;
-            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+            box-shadow: 0 2px 8px rgba(138, 5, 255, 0.08);
             transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
         }
         .btn-check-break:hover, .btn-check-break:focus {
-            background: #1565c0 !important;      /* Darker blue on hover */
-            border-color: #1565c0 !important;
-            box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+            background: #2a0052 !important;      /* Dark purple on hover */
+            border-color: #2a0052 !important;
+            box-shadow: 0 4px 16px rgba(42, 0, 82, 0.18);
             transform: translateY(-2px) scale(1.03);
         }
         body.dark-mode .btn-check-break {
-            background: #1565c0 !important;
-            border-color: #1565c0 !important;
+            background: #2a0052 !important;
+            border-color: #2a0052 !important;
             color: #fff !important;
         }
         body.dark-mode .btn-check-break:hover, body.dark-mode .btn-check-break:focus {
-            background: #1976d2 !important;
-            border-color: #1976d2 !important;
+            background: #8a05ff !important;
+            border-color: #8a05ff !important;
         }
     </style>
 </head>
