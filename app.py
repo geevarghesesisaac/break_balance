@@ -26,6 +26,31 @@ HTML = """
         .progress { height: 24px; }
         .progress-bar { transition: width 1s cubic-bezier(.4,0,.2,1); }
         .footer { font-size: 0.9em; color: #888; margin-top: 30px; text-align: center; }
+        body.dark-mode {
+            background: #181a1b !important;
+            color: #f8f9fa !important;
+        }
+        body.dark-mode .container {
+            background: #23272b !important;
+            color: #f8f9fa !important;
+        }
+        body.dark-mode .card {
+            background: #23272b !important;
+            color: #f8f9fa !important;
+        }
+        body.dark-mode .form-control,
+        body.dark-mode .form-select {
+            background: #181a1b !important;
+            color: #f8f9fa !important;
+            border-color: #444 !important;
+        }
+        body.dark-mode .btn-success {
+            background: #2e7d32 !important;
+            border-color: #2e7d32 !important;
+        }
+        body.dark-mode .footer {
+            color: #aaa !important;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +123,34 @@ HTML = """
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
         new bootstrap.Tooltip(tooltipTriggerEl)
     })
+</script>
+<!-- Theme Toggle Button -->
+<button id="theme-toggle" aria-label="Toggle theme"
+    style="position:fixed;bottom:30px;right:30px;z-index:100;width:45px;height:45px;border-radius:50%;border:1px solid #222;background:#f8f9fa;color:#222;display:grid;place-items:center;">
+    <!-- Sun Icon -->
+    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 30 30">
+        <circle cx="15" cy="15" r="6" stroke="currentColor" stroke-width="2"/>
+        <path d="M15 1.25V3.75M15 26.25V28.75M5.27 5.27L7.05 7.05M22.95 22.95L24.72 24.72M1.25 15H3.75M26.25 15H28.75M5.27 24.72L7.05 22.95M22.95 7.05L24.72 5.27" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <!-- Moon Icon (hidden by default) -->
+    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 26 26" style="display:none;">
+        <path d="M22.08 13.45c-.17 1.79-.84 3.5-1.94 4.92-1.1 1.42-2.58 2.5-4.27 3.11-1.69.61-3.52.73-5.27.32-1.75-.41-3.36-1.29-4.61-2.56-1.25-1.27-2.13-2.88-2.52-4.64-.39-1.76-.27-3.59.34-5.28.61-1.69 1.7-3.17 3.12-4.27C8.29 3.99 9.99 3.32 11.79 3.16c-1.05 1.42-1.56 3.19-1.43 4.98.13 1.79.89 3.45 2.14 4.7 1.25 1.25 2.91 2.01 4.7 2.14 1.79.13 3.56-.38 4.98-1.43z" stroke="currentColor" stroke-width="2"/>
+    </svg>
+</button>
+<script>
+document.getElementById('theme-toggle').onclick = function() {
+    document.body.classList.toggle('dark-mode');
+    // Toggle icons
+    let sun = document.getElementById('sun-icon');
+    let moon = document.getElementById('moon-icon');
+    if(document.body.classList.contains('dark-mode')) {
+        sun.style.display = 'none';
+        moon.style.display = 'block';
+    } else {
+        sun.style.display = 'block';
+        moon.style.display = 'none';
+    }
+};
 </script>
 </body>
 </html>
