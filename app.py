@@ -1,5 +1,6 @@
-from flask import Flask, render_template_string, request
+from flask import Flask, render_template, request
 import datetime
+import os
 
 app = Flask(__name__)
 
@@ -9,35 +10,6 @@ SHIFT_OPTIONS = {
     "Shift 1 (12:30 PM - 10:00 PM)": {"start_hour": 12, "start_minute": 30},
     "Shift 2 (1:00 PM - 10:30 PM)": {"start_hour": 13, "start_minute": 0}
 }
-
-HTML_TEMPLATE = """
-<!doctype html>
-<html>
-<head>
-    <title>Break Balance</title>
-</head>
-<body style="font-family: Arial; text-align: center;">
-    <h1>Break Balance</h1>
-    <form method="post">
-        <label>Select Shift:</label>
-        <select name="shift">
-            {% for name in shifts %}
-            <option value="{{name}}">{{name}}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label>Worked Time (HH:MM):</label>
-        <input name="worked_time" placeholder="04:50" required>
-        <br><br>
-        <button type="submit">Check Break</button>
-    </form>
-
-    {% if result %}
-        <h3>{{result}}</h3>
-    {% endif %}
-</body>
-</html>
-"""
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -69,9 +41,8 @@ def index():
         except ValueError:
             result = "❌ Please enter worked time in HH:MM format."
 
-    return render_template_string(HTML_TEMPLATE, shifts=SHIFT_OPTIONS.keys(), result=result)
+    return render_template("index.html", shifts=SHIFT_OPTIONS.keys(), result=result)
 
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
