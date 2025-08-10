@@ -127,7 +127,7 @@ HTML = """
     </div>
     {% endif %}
     <div class="footer">
-    Made with <a href="https://github.com/geevarghesesisaac/" target="_blank" rel="noopener noreferrer">❤️</a> to make every break count...
+    Made with <a href="https://github.com/geevarghesesisaac/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">❤️</a> to make every break count...
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -224,8 +224,7 @@ def index():
             )
 
             if now < shift_start:
-                # result = f"⚠️ Shift hasn't started yet (starts at {selected_shift[-14:]})."
-                result = f"⚠️ Shift hasn't started yet (starts at {selected_shift})."
+                result = f"⚠️ Selected shift hasn't started yet!"
                 break_left = 0
             else:
                 elapsed_time = now - shift_start
