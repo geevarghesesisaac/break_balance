@@ -11,6 +11,7 @@ SHIFT_OPTIONS = {
 TOTAL_BREAK_MINUTES = 60
 
 # HTML template (Bootstrap for style)
+# ...existing code...
 HTML = """
 <!DOCTYPE html>
 <html>
@@ -20,35 +21,76 @@ HTML = """
     <style>
         body { background: #f8f9fa; padding-top: 50px; }
         .container { max-width: 450px; }
+        .logo { width: 48px; margin-bottom: 10px; }
+        .progress { height: 24px; }
+        .footer { font-size: 0.9em; color: #888; margin-top: 30px; text-align: center; }
     </style>
 </head>
 <body>
 <div class="container shadow p-4 rounded bg-white">
-    <h2 class="text-center mb-4">Break Balance</h2>
-    <form method="POST">
-        <div class="mb-3">
-            <label class="form-label">Select Your Shift:</label>
-            <select name="shift" class="form-select" required>
-                {% for shift in shifts %}
-                <option value="{{ shift }}" {% if selected_shift == shift %}selected{% endif %}>{{ shift }}</option>
-                {% endfor %}
-            </select>
+    <div class="text-center mb-3">
+        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" class="logo" alt="Break Balance">
+        <h2 class="mb-1">Break Balance</h2>
+        <div class="text-muted small mb-2">Check your break usage for today</div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Select Your Shift:</label>
+                    <select name="shift" class="form-select" required>
+                        {% for shift in shifts %}
+                        <option value="{{ shift }}" {% if selected_shift == shift %}selected{% endif %}>{{ shift }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-text">Shift timings are shown in the dropdown.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Worked Time <span data-bs-toggle="tooltip" title="Enter hours and minutes worked since shift start">(HH:MM)</span>:</label>
+                    <input type="text" name="worked_time" class="form-control" placeholder="e.g. 04:50" required>
+                    <div class="form-text">Format: HH:MM (e.g., 04:50)</div>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Check Break</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Worked Time (HH:MM):</label>
-            <input type="text" name="worked_time" class="form-control" placeholder="e.g. 04:50" required>
-        </div>
-        <button type="submit" class="btn btn-success w-100">Check Break</button>
-    </form>
+    </div>
     {% if result %}
-    <div class="alert alert-{{ 'success' if break_left >= 0 else 'danger' }} mt-4">
-        {{ result }}
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="alert alert-{{ 'success' if break_left >= 0 else 'danger' }} mb-3">
+                {{ result }}
+            </div>
+            <div>
+                <label class="form-label">Break Usage:</label>
+                <div class="progress">
+                    <div class="progress-bar {{ 'bg-success' if break_left >= 0 else 'bg-danger' }}" role="progressbar"
+                        style="width: {{ (TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES) / TOTAL_BREAK_MINUTES * 100 }}%"
+                        aria-valuenow="{{ TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES }}"
+                        aria-valuemin="0" aria-valuemax="{{ TOTAL_BREAK_MINUTES }}">
+                        {{ TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES }} min
+                    </div>
+                </div>
+                <div class="text-end small mt-1">Total allowed: {{ TOTAL_BREAK_MINUTES }} min</div>
+            </div>
+        </div>
     </div>
     {% endif %}
+    <div class="footer">
+        &copy; 2025 Break Balance | Made with Flask & Bootstrap
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
 </body>
 </html>
 """
+# ...existing code...
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
