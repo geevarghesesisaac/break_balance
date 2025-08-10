@@ -28,19 +28,6 @@ HTML = """
     </style>
 </head>
 <body>
-<div style="position: absolute; top: 20px; right: 30px; z-index: 10;">
-    <form method="POST" id="tzform">
-        <label class="form-label" style="margin-bottom:0;">
-            <img src="https://cdn-icons-png.flaticon.com/512/44/44474.png" style="width:22px;vertical-align:middle;" alt="Timezone">
-        </label>
-        <select name="timezone" class="form-select form-select-sm d-inline-block" style="width:auto;display:inline;" onchange="document.getElementById('tzform').submit();">
-            <option value="Asia/Kolkata" {% if selected_tz == "Asia/Kolkata" %}selected{% endif %}>Asia/Kolkata</option>
-            <option value="Europe/London" {% if selected_tz == "Europe/London" %}selected{% endif %}>Europe/London</option>
-            <option value="America/New_York" {% if selected_tz == "America/New_York" %}selected{% endif %}>America/New_York</option>
-            <option value="America/Los_Angeles" {% if selected_tz == "America/Los_Angeles" %}selected{% endif %}>America/Los_Angeles</option>
-        </select>
-    </form>
-</div>
 <div class="container shadow p-4 rounded bg-white">
     <div class="text-center mb-3">
         <img src="https://cdn-icons-gif.flaticon.com/11186/11186847.gif" class="logo" alt="Break Balance">
@@ -50,6 +37,7 @@ HTML = """
     <div class="card mb-3">
         <div class="card-body">
             <form method="POST">
+            <input type="hidden" name="timezone" id="timezone">
                 <div class="mb-3">
                     <label class="form-label">Select Your Shift:</label>
                     <select name="shift" class="form-select" required>
@@ -98,6 +86,18 @@ HTML = """
         new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
+<script>
+    // Set user's timezone in hidden input
+    document.addEventListener("DOMContentLoaded", function() {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById("timezone").value = tz;
+    });
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
 </body>
 </html>
 """
@@ -110,7 +110,7 @@ def index():
     break_left = None
     selected_shift = list(SHIFT_OPTIONS.keys())[0]
     selected_tz = "Asia/Kolkata"
-    
+
     if request.method == "POST":
         worked_time = request.form.get("worked_time", "").strip()
         selected_shift = request.form.get("shift")
