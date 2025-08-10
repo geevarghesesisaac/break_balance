@@ -81,7 +81,7 @@ HTML = """
 <body>
 <div class="container shadow p-4 rounded bg-white">
     <div class="text-center mb-3">
-        <img src="https://cdn-icons-gif.flaticon.com/11186/11186847.gif" class="logo" alt="Break Balance">
+        <img src="https://cdn-icons-gif.flaticon.com/14447/14447779.gif" class="logo" alt="Break Balance">
         <h2 class="mb-1">Break Balance</h2>
         <div class="text-muted small mb-2">Healthy Breaks, Productive You...</div>
     </div>
@@ -127,6 +127,7 @@ HTML = """
     </div>
     {% endif %}
     <div class="footer">
+    Made with ❤️ to make every break count...
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -223,7 +224,8 @@ def index():
             )
 
             if now < shift_start:
-                result = f"❌ Shift hasn't started yet (starts at {selected_shift[-14:]})."
+                # result = f"⚠️ Shift hasn't started yet (starts at {selected_shift[-14:]})."
+                result = f"⚠️ Shift hasn't started yet (starts at {selected_shift})."
                 break_left = 0
             else:
                 elapsed_time = now - shift_start
@@ -237,7 +239,7 @@ def index():
                     result = f"❌ Break Taken: {break_taken_minutes} min | ❌ Overused by: {abs(break_left)} min"
 
         except ValueError:
-            result = "⚠ Please enter worked time in HH:MM format (e.g., 04:50)"
+            result = "Please enter worked time in HH:MM format (e.g., 04:50)"
             break_left = 0
 
     return render_template_string(HTML, shifts=SHIFT_OPTIONS.keys(), result=result, selected_shift=selected_shift, break_left=break_left, TOTAL_BREAK_MINUTES=TOTAL_BREAK_MINUTES, selected_tz=selected_tz)
