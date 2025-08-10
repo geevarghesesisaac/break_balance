@@ -127,7 +127,7 @@ HTML = """
     </div>
     {% endif %}
     <div class="footer">
-    Made with ❤️ to make every break count...
+    Made with <a href="https://github.com/geevarghesesisaac/" target="_blank" rel="noopener noreferrer">❤️</a> to make every break count...
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
