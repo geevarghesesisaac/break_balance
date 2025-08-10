@@ -109,7 +109,8 @@ def index():
     result = None
     break_left = None
     selected_shift = list(SHIFT_OPTIONS.keys())[0]
-
+    selected_tz = "Asia/Kolkata"
+    
     if request.method == "POST":
         worked_time = request.form.get("worked_time", "").strip()
         selected_shift = request.form.get("shift")
