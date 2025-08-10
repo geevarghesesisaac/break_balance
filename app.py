@@ -12,7 +12,6 @@ SHIFT_OPTIONS = {
 TOTAL_BREAK_MINUTES = 60
 
 # HTML template (Bootstrap for style)
-# ...existing code...
 HTML = """
 <!DOCTYPE html>
 <html>
@@ -22,7 +21,7 @@ HTML = """
     <style>
         body { background: #f8f9fa; padding-top: 50px; }
         .container { max-width: 450px; }
-        .logo { width: 48px; margin-bottom: 10px; }
+        .logo { width: 48px; margin-bottom: 10px; border-radius: 50%; }
         .progress { height: 24px; }
         .progress-bar { transition: width 1s cubic-bezier(.4,0,.2,1); }
         .footer { font-size: 0.9em; color: #888; margin-top: 30px; text-align: center; }
@@ -44,12 +43,36 @@ HTML = """
             color: #f8f9fa !important;
             border-color: #444 !important;
         }
-        body.dark-mode .btn-success {
-            background: #2e7d32 !important;
-            border-color: #2e7d32 !important;
-        }
         body.dark-mode .footer {
             color: #aaa !important;
+        }
+        body.dark-mode .text-muted {
+            color: #b0b0b0 !important;
+        }
+        body.dark-mode .form-text {
+            color: #b0b0b0 !important;
+        }
+        .btn-check-break {
+            background: #1976d2 !important;      /* Blue */
+            border-color: #1976d2 !important;
+            color: #fff !important;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .btn-check-break:hover, .btn-check-break:focus {
+            background: #1565c0 !important;      /* Darker blue on hover */
+            border-color: #1565c0 !important;
+            box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+            transform: translateY(-2px) scale(1.03);
+        }
+        body.dark-mode .btn-check-break {
+            background: #1565c0 !important;
+            border-color: #1565c0 !important;
+            color: #fff !important;
+        }
+        body.dark-mode .btn-check-break:hover, body.dark-mode .btn-check-break:focus {
+            background: #1976d2 !important;
+            border-color: #1976d2 !important;
         }
     </style>
 </head>
@@ -76,7 +99,7 @@ HTML = """
                     <label class="form-label">Worked Time <span data-bs-toggle="tooltip" title="Enter hours and minutes worked since shift start">(HH:MM)</span>:</label>
                     <input type="text" name="worked_time" class="form-control" placeholder="e.g. 04:50" required>
                 </div>
-                <button type="submit" class="btn btn-success w-100">Check Break</button>
+                <button type="submit" class="btn btn-check-break w-100">Check Break</button>
             </form>
         </div>
     </div>
@@ -106,12 +129,6 @@ HTML = """
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-        new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
 <script>
     // Set user's timezone in hidden input
     document.addEventListener("DOMContentLoaded", function() {
@@ -152,10 +169,31 @@ document.getElementById('theme-toggle').onclick = function() {
     }
 };
 </script>
+<script>
+    // Save selected shift to cookie on change
+    document.addEventListener("DOMContentLoaded", function() {
+        var shiftSelect = document.querySelector('select[name="shift"]');
+        if (shiftSelect) {
+            // Restore from cookie
+            var lastShift = document.cookie.replace(/(?:(?:^|.*;\s*)selected_shift\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            if (lastShift) {
+                for (var i = 0; i < shiftSelect.options.length; i++) {
+                    if (shiftSelect.options[i].value === lastShift) {
+                        shiftSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            // Save to cookie on change
+            shiftSelect.onchange = function() {
+                document.cookie = "selected_shift=" + encodeURIComponent(this.value) + ";path=/";
+            };
+        }
+    });
+</script>
 </body>
 </html>
 """
-# ...existing code...
 
 
 @app.route("/", methods=["GET", "POST"])
