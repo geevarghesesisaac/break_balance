@@ -131,7 +131,7 @@ def index():
             result = "⚠ Please enter worked time in HH:MM format (e.g., 04:50)"
             break_left = 0
 
-    return render_template_string(HTML, shifts=SHIFT_OPTIONS.keys(), result=result, selected_shift=selected_shift, break_left=break_left)
+    return render_template_string(HTML, shifts=SHIFT_OPTIONS.keys(), result=result, selected_shift=selected_shift, break_left=break_left, TOTAL_BREAK_MINUTES=TOTAL_BREAK_MINUTES)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
