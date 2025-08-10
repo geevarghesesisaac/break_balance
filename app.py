@@ -57,13 +57,11 @@ HTML = """
             border-color: #2a0052 !important;
             color: #fff !important;
             box-shadow: 0 2px 8px rgba(138, 5, 255, 0.08);
-            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
         }
         .btn-check-break:hover, .btn-check-break:focus {
             background: #8a05ff !important;      /* Dark purple on hover */
             border-color: #8a05ff !important;
             box-shadow: 0 4px 16px rgba(42, 0, 82, 0.18);
-            transform: translateY(-2px) scale(1.03);
         }
         body.dark-mode .btn-check-break {
             background: #8a05ff !important;
