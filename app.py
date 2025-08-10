@@ -1,33 +1,81 @@
-from flask import Flask, render_template, request
-import datetime
-import os
+from flask import Flask, render_template_string, request
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
-TOTAL_BREAK_MINUTES = 60
-
+# Constants
 SHIFT_OPTIONS = {
     "Shift 1 (12:30 PM - 10:00 PM)": {"start_hour": 12, "start_minute": 30},
     "Shift 2 (1:00 PM - 10:30 PM)": {"start_hour": 13, "start_minute": 0}
 }
+TOTAL_BREAK_MINUTES = 60
+
+# HTML template (Bootstrap for style)
+HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Break Balance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; padding-top: 50px; }
+        .container { max-width: 450px; }
+    </style>
+</head>
+<body>
+<div class="container shadow p-4 rounded bg-white">
+    <h2 class="text-center mb-4">Break Balance</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Select Your Shift:</label>
+            <select name="shift" class="form-select" required>
+                {% for shift in shifts %}
+                <option value="{{ shift }}" {% if selected_shift == shift %}selected{% endif %}>{{ shift }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Worked Time (HH:MM):</label>
+            <input type="text" name="worked_time" class="form-control" placeholder="e.g. 04:50" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Check Break</button>
+    </form>
+    {% if result %}
+    <div class="alert alert-{{ 'success' if break_left >= 0 else 'danger' }} mt-4">
+        {{ result }}
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
+"""
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    result = ""
+    result = None
+    break_left = None
+    selected_shift = list(SHIFT_OPTIONS.keys())[0]
+
     if request.method == "POST":
         worked_time = request.form.get("worked_time", "").strip()
-        shift_name = request.form.get("shift", list(SHIFT_OPTIONS.keys())[0])
+        selected_shift = request.form.get("shift")
 
         try:
             worked_hours, worked_minutes = map(int, worked_time.split(":"))
-            worked_delta = datetime.timedelta(hours=worked_hours, minutes=worked_minutes)
+            worked_delta = timedelta(hours=worked_hours, minutes=worked_minutes)
 
-            now = datetime.datetime.now()
-            shift_time = SHIFT_OPTIONS[shift_name]
-            shift_start = now.replace(hour=shift_time["start_hour"], minute=shift_time["start_minute"], second=0, microsecond=0)
+            now = datetime.now()
+            shift_time = SHIFT_OPTIONS[selected_shift]
+            shift_start = now.replace(
+                hour=shift_time["start_hour"],
+                minute=shift_time["start_minute"],
+                second=0,
+                microsecond=0
+            )
 
             if now < shift_start:
-                result = f"❌ Shift hasn't started yet ({shift_name})."
+                result = f"❌ Shift hasn't started yet (starts at {selected_shift[-14:]})."
+                break_left = 0
             else:
                 elapsed_time = now - shift_start
                 break_taken = elapsed_time - worked_delta
@@ -35,14 +83,15 @@ def index():
                 break_left = TOTAL_BREAK_MINUTES - break_taken_minutes
 
                 if break_left >= 0:
-                    result = f"✅ Break Taken: {break_taken_minutes} min | Break Left: {break_left} min"
+                    result = f"✅ Break Taken: {break_taken_minutes} min | ✅ Break Left: {break_left} min"
                 else:
-                    result = f"❌ Break Taken: {break_taken_minutes} min | Overused by: {abs(break_left)} min"
-        except ValueError:
-            result = "❌ Please enter worked time in HH:MM format."
+                    result = f"❌ Break Taken: {break_taken_minutes} min | ❌ Overused by: {abs(break_left)} min"
 
-    return render_template("index.html", shifts=SHIFT_OPTIONS.keys(), result=result)
+        except ValueError:
+            result = "⚠ Please enter worked time in HH:MM format (e.g., 04:50)"
+            break_left = 0
+
+    return render_template_string(HTML, shifts=SHIFT_OPTIONS.keys(), result=result, selected_shift=selected_shift, break_left=break_left)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=5000)
