@@ -52,9 +52,13 @@ HTML = """
         body.dark-mode .form-text {
             color: #b0b0b0 !important;
         }
+        body.dark-mode ::placeholder {
+            color: #fff !important;
+            opacity: 1;
+        }
         .btn-check-break {
-            background: #2a0052 !important;      /* Purple */
-            border-color: #2a0052 !important;
+            background: #6003b2 !important;      /* Purple */
+            border-color: #6003b2 !important;
             color: #fff !important;
             box-shadow: 0 2px 8px rgba(138, 5, 255, 0.08);
         }
@@ -69,8 +73,8 @@ HTML = """
             color: #fff !important;
         }
         body.dark-mode .btn-check-break:hover, body.dark-mode .btn-check-break:focus {
-            background: #2a0052 !important;
-            border-color: #2a0052 !important;
+            background: #6003b2 !important;
+            border-color: #6003b2 !important;
         }
     </style>
 </head>
