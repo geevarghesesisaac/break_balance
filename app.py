@@ -29,7 +29,7 @@ HTML = """
 <body>
 <div class="container shadow p-4 rounded bg-white">
     <div class="text-center mb-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" class="logo" alt="Break Balance">
+        <img src="https://cdn-icons-gif.flaticon.com/11186/11186847.gif" class="logo" alt="Break Balance">
         <h2 class="mb-1">Break Balance</h2>
         <div class="text-muted small mb-2">Check your break usage for today</div>
     </div>
@@ -43,12 +43,10 @@ HTML = """
                         <option value="{{ shift }}" {% if selected_shift == shift %}selected{% endif %}>{{ shift }}</option>
                         {% endfor %}
                     </select>
-                    <div class="form-text">Shift timings are shown in the dropdown.</div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Worked Time <span data-bs-toggle="tooltip" title="Enter hours and minutes worked since shift start">(HH:MM)</span>:</label>
                     <input type="text" name="worked_time" class="form-control" placeholder="e.g. 04:50" required>
-                    <div class="form-text">Format: HH:MM (e.g., 04:50)</div>
                 </div>
                 <button type="submit" class="btn btn-success w-100">Check Break</button>
             </form>
@@ -76,7 +74,7 @@ HTML = """
     </div>
     {% endif %}
     <div class="footer">
-        &copy; 2025 Break Balance | Made with Flask & Bootstrap
+        &copy; 2025 Break Balance | Made with ♥️ using Flask & Bootstrap
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
