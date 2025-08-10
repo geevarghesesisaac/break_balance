@@ -24,6 +24,7 @@ HTML = """
         .container { max-width: 450px; }
         .logo { width: 48px; margin-bottom: 10px; }
         .progress { height: 24px; }
+        .progress-bar { transition: width 1s cubic-bezier(.4,0,.2,1); }
         .footer { font-size: 0.9em; color: #888; margin-top: 30px; text-align: center; }
     </style>
 </head>
@@ -32,7 +33,7 @@ HTML = """
     <div class="text-center mb-3">
         <img src="https://cdn-icons-gif.flaticon.com/11186/11186847.gif" class="logo" alt="Break Balance">
         <h2 class="mb-1">Break Balance</h2>
-        <div class="text-muted small mb-2">Check your break usage for today</div>
+        <div class="text-muted small mb-2">Healthy Breaks, Productive You...</div>
     </div>
     <div class="card mb-3">
         <div class="card-body">
@@ -62,14 +63,14 @@ HTML = """
             </div>
             <div>
                 <label class="form-label">Break Usage:</label>
-                <div class="progress">
-                    <div class="progress-bar {{ 'bg-success' if break_left >= 0 else 'bg-danger' }}" role="progressbar"
-                        style="width: {{ (TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES) / TOTAL_BREAK_MINUTES * 100 }}%"
-                        aria-valuenow="{{ TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES }}"
-                        aria-valuemin="0" aria-valuemax="{{ TOTAL_BREAK_MINUTES }}">
-                        {{ TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES }} min
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated {{ 'bg-success' if break_left >= 0 else 'bg-danger' }}" role="progressbar"
+                            style="width: {{ (TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES) / TOTAL_BREAK_MINUTES * 100 }}%"
+                            aria-valuenow="{{ TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES }}"
+                            aria-valuemin="0" aria-valuemax="{{ TOTAL_BREAK_MINUTES }}">
+                            {{ TOTAL_BREAK_MINUTES - break_left if break_left >= 0 else TOTAL_BREAK_MINUTES }} min
+                        </div>
                     </div>
-                </div>
                 <div class="text-end small mt-1">Total allowed: {{ TOTAL_BREAK_MINUTES }} min</div>
             </div>
         </div>
