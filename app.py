@@ -156,21 +156,40 @@ HTML = """
         <path d="M22.08 13.45c-.17 1.79-.84 3.5-1.94 4.92-1.1 1.42-2.58 2.5-4.27 3.11-1.69.61-3.52.73-5.27.32-1.75-.41-3.36-1.29-4.61-2.56-1.25-1.27-2.13-2.88-2.52-4.64-.39-1.76-.27-3.59.34-5.28.61-1.69 1.7-3.17 3.12-4.27C8.29 3.99 9.99 3.32 11.79 3.16c-1.05 1.42-1.56 3.19-1.43 4.98.13 1.79.89 3.45 2.14 4.7 1.25 1.25 2.91 2.01 4.7 2.14 1.79.13 3.56-.38 4.98-1.43z" stroke="currentColor" stroke-width="2"/>
     </svg>
 </button>
+
 <script>
-document.getElementById('theme-toggle').onclick = function() {
-    document.body.classList.toggle('dark-mode');
-    // Toggle icons
+document.addEventListener("DOMContentLoaded", function() {
+    let theme = localStorage.getItem("theme");
     let sun = document.getElementById('sun-icon');
     let moon = document.getElementById('moon-icon');
-    if(document.body.classList.contains('dark-mode')) {
+
+    // Apply saved theme on load
+    if (theme === "dark") {
+        document.body.classList.add('dark-mode');
         sun.style.display = 'none';
         moon.style.display = 'block';
     } else {
+        document.body.classList.remove('dark-mode');
         sun.style.display = 'block';
         moon.style.display = 'none';
     }
-};
+
+    // Toggle on click and save
+    document.getElementById('theme-toggle').onclick = function() {
+        document.body.classList.toggle('dark-mode');
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem("theme", "dark");
+            sun.style.display = 'none';
+            moon.style.display = 'block';
+        } else {
+            localStorage.setItem("theme", "light");
+            sun.style.display = 'block';
+            moon.style.display = 'none';
+        }
+    };
+});
 </script>
+
 <script>
     // Save selected shift to cookie on change
     document.addEventListener("DOMContentLoaded", function() {
