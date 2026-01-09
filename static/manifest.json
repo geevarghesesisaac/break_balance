@@ -1,0 +1,27 @@
+{
+  "name": "Break Balance",
+  "short_name": "BreakBalance",
+  "description": "Healthy Breaks, Productive You...",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#6003b2",
+  "icons": [
+    {
+      "src": "/static/mug_favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/static/mug_icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/mug_icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
