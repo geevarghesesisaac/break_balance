@@ -1,12 +1,18 @@
 {
+  "id": "break-balance-pwa",
   "name": "Break Balance",
   "short_name": "BreakBalance",
   "description": "Healthy Breaks, Productive You...",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "portrait",
   "background_color": "#f8f9fa",
   "theme_color": "#6003b2",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["productivity", "health", "utilities"],
   "icons": [
     {
       "src": "/static/mug_favicon.ico",
@@ -22,6 +28,32 @@
       "src": "/static/mug_icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/screenshot-mobile.png",
+      "sizes": "360x640",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/screenshot-desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Check Break Balance",
+      "short_name": "Check Break",
+      "description": "Quickly check your remaining break time",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/static/mug_icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
