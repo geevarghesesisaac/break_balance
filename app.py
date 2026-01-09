@@ -51,6 +51,8 @@ def index():
     if request.method == "POST":
         worked_time = request.form.get("worked_time", "").strip()
         selected_shift = request.form.get("shift")
+        if selected_shift not in SHIFT_OPTIONS:
+            selected_shift = list(SHIFT_OPTIONS.keys())[0]
         break_minutes = SHIFT_OPTIONS[selected_shift]["break_minutes"]
         selected_tz = request.form.get("timezone", "Asia/Kolkata")
         try:
