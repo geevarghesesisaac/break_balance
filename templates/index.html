@@ -233,5 +233,10 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+<script>
+if ("Notification" in window && Notification.permission === "default") {
+  Notification.requestPermission();
+}
+</script>
 </body>
 </html>
